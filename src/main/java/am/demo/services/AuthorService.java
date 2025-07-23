@@ -38,7 +38,7 @@ public class AuthorService {
 
     public Author getByID(UUID authorId) {
         return this.authorRepo.findById(authorId).orElseThrow(() -> new NotfoundException(
-                "user not found"
+                "author not found"
         ));
     }
 
