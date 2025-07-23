@@ -24,7 +24,8 @@ public class BlogService {
     private AuthorRepo authorRepo;
 
     public Blog saveBlog(BlogPayload payloadb) {
-        Author blogAuthor = this.authorRepo.findById(payloadb.getAuthorId()).orElseThrow();
+        Author blogAuthor = this.authorRepo.findById(payloadb.getAuthorId()).orElseThrow(() ->
+                new NotfoundException("author not found"));
         Blog blogToSave = new Blog(payloadb.getCategory(), payloadb.getTitle(), payloadb.getContent(),
                 "https://picsum.photos/200/300", blogAuthor);
         this.blogRepo.save(blogToSave);
