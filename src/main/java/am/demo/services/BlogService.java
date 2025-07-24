@@ -4,7 +4,6 @@ import am.demo.entities.Author;
 import am.demo.entities.Blog;
 import am.demo.exceptions.NotfoundException;
 import am.demo.payloads.BlogPayload;
-import am.demo.repositories.AuthorRepo;
 import am.demo.repositories.BlogRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,11 +20,10 @@ public class BlogService {
     private BlogRepo blogRepo;
 
     @Autowired
-    private AuthorRepo authorRepo;
+    private AuthorService authorService;
 
     public Blog saveBlog(BlogPayload payloadb) {
-        Author blogAuthor = this.authorRepo.findById(payloadb.getAuthorId()).orElseThrow(() ->
-                new NotfoundException("author not found"));
+        Author blogAuthor = this.authorService.getByID(payloadb.getAuthorId());
         Blog blogToSave = new Blog(payloadb.getCategory(), payloadb.getTitle(), payloadb.getContent(),
                 "https://picsum.photos/200/300", blogAuthor);
         this.blogRepo.save(blogToSave);
